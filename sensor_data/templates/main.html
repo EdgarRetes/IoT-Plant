@@ -1,18 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Plant</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main>
-      <h1>Plant</h1>
-      {% for registry in registries %}
-      <div>{{ registry }}</div>
-      {% endfor %}
-    </main>
-  </body>
+    <head>
+        {% load static %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Plant Temperature</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            /* Custom background gradient for the body */
+            body {
+                background: linear-gradient(135deg, #e0f7fa, #aed581);
+                color: #34495e;
+            }
+            .card {
+                border-radius: 50px;
+                overflow: hidden;
+            }
+            .card-header {
+                background-color: #43a047;
+                color: #ffffff;
+                font-size: 1.5rem;
+            }
+            .card-body {
+                background-color: #ffffff;
+                color: #34495e;
+            }
+            .card-footer {
+                background-color: #e8f5e9;
+                color: #388e3c;
+            }
+            .temperature {
+                font-size: 3rem;
+                font-weight: bold;
+                color: #ff7043;
+            }
+            .timestamp {
+                font-size: 1rem;
+                color: #607d8b;
+            }
+
+            /* Animation for the plant image */
+            .animated-plant {
+                width: 300px;
+                height: 500px;
+                vertical-align: middle;
+                animation: grow-shrink 3s ease-in-out infinite;
+                transition: transform 0.3s ease;
+            }
+
+            /* Plant image grows and shrinks */
+            @keyframes grow-shrink {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+            }
+
+            /* Hover effect for the plant image */
+            .animated-plant:hover {
+                transform: scale(1.5) rotate(12deg);
+                cursor: pointer;
+            }
+
+            /* Hover effect for header image */
+            .header-img {
+                width: 50px;
+                height: 75px;
+                transition: transform 0.3s ease;
+            }
+
+            .header-img:hover {
+                transform: scale(1.2) rotate(-10deg);
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="container mt-5 mb-5">
+            <div class="card text-center shadow-lg">
+                <div class="card-header">
+                    <img src="{% static 'images/flower.png' %}" class="header-img" alt="Flower emoji"> Plant Temperature Monitor
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Latest Temperature Reading</h4>
+                    <p class="temperature">
+                        <img src="{% static 'images/plantemoji.jpg' %}" alt="Plant emoji" class="animated-plant" />
+                    </p>
+                    {% for registry in registries %}
+                    <div>🌱 TempSensor: {{ registry.value }}°C </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Optional JavaScript for Bootstrap -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
 </html>
