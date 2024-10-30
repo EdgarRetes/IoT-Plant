@@ -14,8 +14,12 @@ def load_data():
 
     if not Plant.objects.exists():
         Plant.objects.bulk_create([
-        Plant(specie="Fern", max_temp=30, min_temp=15, max_soil_humidity=70, min_soil_humidity=40, max_air_humidity=80, min_air_humidity=50),
-        Plant(specie="Cactus", max_temp=40, min_temp=20, max_soil_humidity=30, min_soil_humidity=10, max_air_humidity=40, min_air_humidity=10),
+        Plant(specie="Swiss Cheese Plant", max_temp=29, min_temp=18, max_soil_humidity=50, min_soil_humidity=70, max_air_humidity=60, min_air_humidity=40),
+        Plant(specie="Rubber Plant", max_temp=29, min_temp=16, max_soil_humidity=40, min_soil_humidity=30, max_air_humidity=50, min_air_humidity=40),
+        Plant(specie="Snake PLant", max_temp=29, min_temp=13, max_soil_humidity=20, min_soil_humidity=10, max_air_humidity=40, min_air_humidity=30),
+        Plant(specie="Photos", max_temp=29, min_temp=19, max_soil_humidity=40, min_soil_humidity=30, max_air_humidity=60, min_air_humidity=40),
+        Plant(specie="Dracaena", max_temp=27, min_temp=18, max_soil_humidity=40, min_soil_humidity=30, max_air_humidity=60, min_air_humidity=40),
+        Plant(specie="Peace Lily", max_temp=27, min_temp=18, max_soil_humidity=60, min_soil_humidity=50, max_air_humidity=70, min_air_humidity=50),
         ])
         
 
@@ -52,5 +56,6 @@ def main(request):
         })
 
     registries = Data.objects.all()
-    return render(request, 'main.html', { 'registries': registries, 'plant_name': request.POST.get("name") })
+    plants = Plant.objects.all()
+    return render(request, 'main.html', { 'registries': registries, 'plant_name': request.POST.get("name"), 'plants':plants})
 

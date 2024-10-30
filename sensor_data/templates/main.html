@@ -105,16 +105,9 @@
                             <div class="d-flex justify-content-center">
                                 <select class="form-select form-select-lg mb-3">
                                     <option selected>Select the type of your plant</option>
-                                    <option value="1">Swiss Cheese Plant</option>
-                                    <option value="2">Rubber plant</option>
-                                    <option value="3">Snake Plant</option>
-                                    <option value="4">Photos</option>
-                                    <option value="5">Dracaena</option>
-                                    <option value="6">Peace Lily</option>
-                                    <option value="7">Calathea</option>
-                                    <option value="8">Philodendron</option>
-                                    <option value="9">ZZ Plant</option>
-                                    <option value="10">Spider Plant</option>
+                                    {% for plant in plants %}
+                                        <option value="{{ plant.id }}">{{plant.specie}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>   
