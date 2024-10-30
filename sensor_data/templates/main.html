@@ -157,106 +157,17 @@
                             <img src="{% static 'images/plantemoji.jpg' %}" alt="Plant emoji" id="plantImage" class="animated-plant">
                         </p>
                     </div>
-                     <!-- Segunda columna -->
                      <div class="col-md-6 mb-4">
                         <div class="p-4 text-center">
-                            {% for registry in registries %}
-                            <div>🌱 TempSensor: {{ registry.value }}°C </div>
-                            {% endfor %}
+                            <div id="temperature">🌱 Temperature: -- °C</div>
+                            <div id="air_humidity">🌱 Air Humidity: -- %</div>
+                            <div id="soil_humidity">🌱 Soil Humidity: -- %</div>
+                            <div id="timestamp">🌱 Timestamp: --</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-      <div class="card shadow-lg">
-        <div class="card-header mb-5 text-center">
-          <img
-            src="{% static 'images/flower.png' %}"
-            class="header-img"
-            alt="Flower emoji"
-          />
-          PlantPal
-        </div>
-        <div class="container mt-5">
-          <div class="row">
-            <!-- Primera columna -->
-            <div class="col-md-6 mb-4">
-              <div class="p-4 rounded shadow-lg bg-light h-100">
-                <form method="post">
-                  {% csrf_token %}
-                  <div class="form-group">
-                    <label for="name" class="font-weight-bold mb-2"
-                      >Name of the Plant:</label
-                    >
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      class="form-control form-control-lg rounded-pill shadow-sm"
-                      placeholder="Enter plant name"
-                      required
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    class="btn btn-success btn-md mt-3 w-100 rounded-pill shadow"
-                  >
-                    Submit
-                  </button>
-                </form>
-              </div>
-            </div>
-
-            <!-- Segunda columna -->
-            <div class="col-md-6 mb-4">
-              <div
-                class="p-4 rounded shadow-lg bg-light h-100 d-flex justify-content-center align-items-center"
-              >
-                <p class="text-center">
-                  <strong>PlantPal</strong> is designed to help you monitor,
-                  nurture, and thrive with your plants. With real-time insights,
-                  PlantPal makes plant care easy and enjoyable for everyone.
-                  Whether you're a seasoned gardener or a beginner, we've got
-                  you covered!
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {% if plant_name %}
-          <p class="text-center mt-5">
-            <strong>Monitoring Plant: {{ plant_name }}</strong>
-          </p>
-          {% else %}
-          <p>No plant name provided yet.</p>
-          {% endif %}
-        </div>
-        <div class="container mt-5">
-          <div class="row">
-            <div class="card-body col-md-6 mb-4">
-              <h4 class="card-title text-center">Latest Temperature Reading</h4>
-              <p class="temperature">
-                <img
-                  src="{% static 'images/plantemoji.jpg' %}"
-                  alt="Plant emoji"
-                  id="plantImage"
-                  class="animated-plant"
-                />
-              </p>
-            </div>
-            <!-- Segunda columna -->
-            <div class="col-md-6 mb-4">
-              <div class="p-4 text-center">
-                <div id="temperature">🌱 Temperature: -- °C</div>
-                <div id="air_humidity">🌱 Air Humidity: -- %</div>
-                <div id="soil_humidity">🌱 Soil Humidity: -- %</div>
-                <div id="timestamp">🌱 Timestamp: --</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
