@@ -1,8 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import TempSensor
 from .sensor import get_temperature  # Import get_temperature function
 
+
 def main(request):
+    plant_name = None
+
+    if request.method == "POST":
+        plant_name = request.POST.get("name")
+
     # Get the latest temperature data
     temperature = get_temperature()
     temperature_value = temperature['value']
@@ -14,4 +20,12 @@ def main(request):
 
     # Get all temperature records
     registries = TempSensor.objects.all()
-    return render(request, 'main.html', {'registries': registries})
+    return render(request, 'main.html', {
+        'registries': registries,
+        'plant_name' : plant_name
+        })
+
+    
+
+
+
