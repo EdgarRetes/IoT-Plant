@@ -8,8 +8,17 @@ api = ApiClient(token=API_TOKEN)
 #     print(f"Label: {variable.label}, ID: {variable.id}")
 
 def get_temperature():  
-    variable_id = '6716fedd50888d0a565184a4'
-    registry = api.get_variable(variable_id)
-    return registry.last_value
-# print(variable.last_value)
+    temp_id = '6716fedd50888d0a565184a4'
+    temp = api.get_variable(temp_id)
+    return temp.last_value
+
+def get_soil_humidity():  
+    soil_id = '6716fedd26764b0ac9e53f6b'
+    soil = api.get_variable(soil_id)
+    return soil.last_value
+
+def get_air_humidity():  
+    air_id = '6716fedd5596a50c7c6a029d'
+    air = api.get_variable(air_id)
+    return air.last_value
 
