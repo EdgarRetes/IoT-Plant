@@ -78,10 +78,10 @@
     <div class="container mt-5 mb-5">
         <div class="card shadow-lg">
             <div class="card-header mb-5 text-center">
-                <img src="{% static 'images/flower.png' %}" class="header-img" alt="Flower emoji"> PlantPal
+                <img src="{% static 'images/flower.png' %}" class="header-img" alt="Flower emoji"> PlantPal 
             </div>
             <div class="container mt-5">
-                <div class="row">
+                <div class="row align-items-center">
                     <!-- Primera columna -->
                     <div class="col-md-6 mb-4">
                         <div class="p-4 rounded shadow-lg bg-light h-100">
@@ -94,8 +94,24 @@
                                 <button type="submit" class="btn btn-success btn-md mt-3 w-100 rounded-pill shadow">Submit</button>
                             </form>
                         </div>
+                        <div class="p-4 rounded shadow-lg bg-light mt-5 mb-5 h-20">
+                            <div class="d-flex justify-content-center">
+                                <select class="form-select form-select-lg mb-3">
+                                    <option selected>Select the type of your plant</option>
+                                    <option value="1">Swiss Cheese Plant</option>
+                                    <option value="2">Rubber plant</option>
+                                    <option value="3">Snake Plant</option>
+                                    <option value="4">Photos</option>
+                                    <option value="5">Dracaena</option>
+                                    <option value="6">Peace Lily</option>
+                                    <option value="7">Calathea</option>
+                                    <option value="8">Philodendron</option>
+                                    <option value="9">ZZ Plant</option>
+                                    <option value="10">Spider Plant</option>
+                                </select>
+                            </div>
+                        </div>   
                     </div>
-                    
                     <!-- Segunda columna -->
                     <div class="col-md-6 mb-4">
                         <div class="p-4 rounded shadow-lg bg-light h-100 d-flex justify-content-center align-items-center">
@@ -105,8 +121,19 @@
                                 Whether you're a seasoned gardener or a beginner, we've got you covered!
                             </p>
                         </div>
+                        <div class="p-4 rounded shadow-lg bg-light mt-5 mb-5 h-20">
+                            <div class="d-flex justify-content-center">
+                                <select class="form-select form-select-lg mb-3">
+                                    <option selected>Select the color of your Plant</option>
+                                    <option value="1">Yellow</option>
+                                    <option value="2">Green</option>
+                                    <option value="3">Red</option>
+                                    <option value="4">Pink</option>
+                                    <option value="5">Purple</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    
                 </div>     
                     
                 {% if plant_name %}
@@ -115,7 +142,7 @@
                     <p>No plant name provided yet.</p>
                 {% endif %}
             </div> 
-            <div class="container mt-5">
+            <div class="container mt-15">
                 <div class="row">
                     <div class="card-body col-md-6 mb-4">
                         <h4 class="card-title text-center">Latest Temperature Reading</h4>
@@ -136,13 +163,11 @@
         </div>
     </div>
 
-    <!-- Optional JavaScript for Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function checkTemperature(value) {
-            // Use backticks for string interpolation
             document.getElementById("temperatureValue").textContent = `Current Temperature: ${value} °C`;
 
             const plantImage = document.getElementById("plantImage");
