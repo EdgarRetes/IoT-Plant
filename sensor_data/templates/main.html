@@ -162,9 +162,10 @@
             <!-- Segunda columna -->
             <div class="col-md-6 mb-4">
               <div class="p-4 text-center">
-                {% for registry in registries %}
-                <div>🌱 TempSensor: {{ registry.lecture }} Timestamp: {{ registry.timestamp}}  Sensor:{{registry.sensor}}</div>
-                {% endfor %}
+                <div id="temperature">🌱 Temperature: -- °C</div>
+                <div id="air_humidity">🌱 Air Humidity: -- %</div>
+                <div id="soil_humidity">🌱 Soil Humidity: -- %</div>
+                <div id="timestamp">🌱 Timestamp: --</div>
               </div>
             </div>
           </div>
@@ -177,6 +178,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+      let seconds = 0;
       function checkTemperature(value) {
         // Use backticks for string interpolation
         document.getElementById(
@@ -192,6 +194,7 @@
         }
       }
       function fetchData() {
+        seconds+=1;
         fetch("{% url 'main' %}", {
           headers: {
             "X-Requested-With": "XMLHttpRequest",
@@ -199,17 +202,23 @@
         })
           .then((response) => response.json())
           .then((data) => {
-            document.getElementById("temperature").textContent =
-              data.temperature;
-            document.getElementById("air_humidity").textContent =
-              data.air_humidity;
-            document.getElementById("soil_humidity").textContent =
-              data.soil_humidity;
-            document.getElementById("timestamp").textContent = data.timestamp;
+            document.getElementById(
+              "temperature"
+            ).textContent = `🌱 Temperature: ${data.temperature} °C`;
+            document.getElementById(
+              "air_humidity"
+            ).textContent = `🌱 Air Humidity: ${data.air_humidity}%`;
+            document.getElementById(
+              "soil_humidity"
+            ).textContent = `🌱 Soil Humidity: ${data.soil_humidity}%`;
+            document.getElementById(
+              "timestamp"
+            ).textContent = `🌱 Timestamp: ${data.timestamp}`;
           })
           .catch((error) => console.error("Error:", error));
       }
 
+      // Llamar a fetchData cada 15 segundos
       setInterval(fetchData, 15000);
     </script>
   </body>

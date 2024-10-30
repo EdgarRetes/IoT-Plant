@@ -1,6 +1,8 @@
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from .models import *
 from .sensor import get_temperature, get_air_humidity, get_soil_humidity
+from django.http import JsonResponse
 
 def load_data():
     if not Sensor.objects.exists():
@@ -15,38 +17,40 @@ def load_data():
         Plant(specie="Fern", max_temp=30, min_temp=15, max_soil_humidity=70, min_soil_humidity=40, max_air_humidity=80, min_air_humidity=50),
         Plant(specie="Cactus", max_temp=40, min_temp=20, max_soil_humidity=30, min_soil_humidity=10, max_air_humidity=40, min_air_humidity=10),
         ])
-
-
+        
 
 def main(request):
     load_data()
-    plant_name = None
 
-    if request.method == "POST":
-        plant_name = request.POST.get("name")
+    if request.headers.get('X-Requested-With') != 'XMLHttpRequest':
+        temperature = get_temperature()
+        air_humidity = get_air_humidity()
+        soil_humidity = get_soil_humidity()
 
-    temperature = get_temperature()
-    temperature_value = temperature['value']
-    temp_timestamp = temperature['timestamp']
-    
-    air_humidity = get_air_humidity()
-    air_humidity_value = air_humidity['value']
-    air_timestamp = air_humidity['timestamp']
-    
-    soil_humidity = get_soil_humidity()
-    soil_humidity_value = soil_humidity['value']
-    soil_timestamp = soil_humidity['timestamp']
-    
-    Data.objects.bulk_create([
-        Data(sensor=Sensor.objects.get(id=1), lecture=temperature_value, timestamp=temp_timestamp),
-        Data(sensor=Sensor.objects.get(id=2), lecture=air_humidity_value, timestamp=air_timestamp),
-        Data(sensor=Sensor.objects.get(id=3), lecture=soil_humidity_value, timestamp=soil_timestamp),
-    ])
+        Data.objects.bulk_create([
+            Data(sensor=Sensor.objects.get(sensor_type="Temperature"), lecture=temperature['value'], timestamp=temperature['timestamp']),
+            Data(sensor=Sensor.objects.get(sensor_type="Air Humidity"), lecture=air_humidity['value'], timestamp=air_humidity['timestamp']),
+            Data(sensor=Sensor.objects.get(sensor_type="Soil Humidity"), lecture=soil_humidity['value'], timestamp=soil_humidity['timestamp']),
+        ])
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        temperature = get_temperature()
+        air_humidity = get_air_humidity()
+        soil_humidity = get_soil_humidity()
+
+        Data.objects.bulk_create([
+            Data(sensor=Sensor.objects.get(sensor_type="Temperature"), lecture=temperature['value'], timestamp=temperature['timestamp']),
+            Data(sensor=Sensor.objects.get(sensor_type="Air Humidity"), lecture=air_humidity['value'], timestamp=air_humidity['timestamp']),
+            Data(sensor=Sensor.objects.get(sensor_type="Soil Humidity"), lecture=soil_humidity['value'], timestamp=soil_humidity['timestamp']),
+        ])
+        latest_data = Data.objects.order_by('-timestamp')[:3] 
+        return JsonResponse({
+            'temperature': latest_data[0].lecture,  
+            'air_humidity': latest_data[1].lecture, 
+            'soil_humidity': latest_data[2].lecture,  
+            'timestamp': latest_data[0].timestamp
+        })
 
     registries = Data.objects.all()
-    return render(request, 'main.html', { 'registries': registries, 'plant_name' : plant_name })
-
-    
-
-
+    return render(request, 'main.html', { 'registries': registries, 'plant_name': request.POST.get("name") })
 
