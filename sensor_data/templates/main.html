@@ -1,80 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Plant Temperature</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <style>
-        /* Custom background gradient for the body */
-        body {
-            background: linear-gradient(135deg, #e0f7fa, #aed581);
-            color: #34495e;
-        }
-        .card {
-            border-radius: 50px;
-            overflow: hidden;
-        }
-        .card-header {
-            background-color: #43a047;
-            color: #ffffff;
-            font-size: 1.5rem;
-        }
-        .card-body {
-            background-color: #ffffff;
-            color: #34495e;
-        }
-        .card-footer {
-            background-color: #e8f5e9;
-            color: #388e3c;
-        }
-        .temperature {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #ff7043;
-        }
-        .timestamp {
-            font-size: 1rem;
-            color: #607d8b;
-        }
+      /* Custom background gradient for the body */
+      body {
+        background: linear-gradient(135deg, #e0f7fa, #aed581);
+        color: #34495e;
+      }
+      .card {
+        border-radius: 50px;
+        overflow: hidden;
+      }
+      .card-header {
+        background-color: #43a047;
+        color: #ffffff;
+        font-size: 1.5rem;
+      }
+      .card-body {
+        background-color: #ffffff;
+        color: #34495e;
+      }
+      .card-footer {
+        background-color: #e8f5e9;
+        color: #388e3c;
+      }
+      .temperature {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #ff7043;
+      }
+      .timestamp {
+        font-size: 1rem;
+        color: #607d8b;
+      }
 
-        /* Animation for the plant image */
-        .animated-plant {
-            width: 500px;
-            height: 700px;
-            justify-content: center;
-            align-items: center;
-            animation: grow-shrink 3s ease-in-out infinite;
-            transition: transform 0.3s ease;
-        }
+      /* Animation for the plant image */
+      .animated-plant {
+        width: 500px;
+        height: 700px;
+        justify-content: center;
+        align-items: center;
+        animation: grow-shrink 3s ease-in-out infinite;
+        transition: transform 0.3s ease;
+      }
 
-        /* Plant image grows and shrinks */
-        @keyframes grow-shrink {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+      /* Plant image grows and shrinks */
+      @keyframes grow-shrink {
+        0%,
+        100% {
+          transform: scale(1);
         }
+        50% {
+          transform: scale(1.05);
+        }
+      }
 
-        /* Hover effect for the plant image */
-        .animated-plant:hover {
-            transform: scale(1.5) rotate(12deg);
-            cursor: pointer;
-        }
+      /* Hover effect for the plant image */
+      .animated-plant:hover {
+        transform: scale(1.5) rotate(12deg);
+        cursor: pointer;
+      }
 
-        /* Hover effect for header image */
-        .header-img {
-            width: 50px;
-            height: 75px;
-            transition: transform 0.3s ease;
-        }
+      /* Hover effect for header image */
+      .header-img {
+        width: 50px;
+        height: 75px;
+        transition: transform 0.3s ease;
+      }
 
-        .header-img:hover {
-            transform: scale(1.2) rotate(-10deg);
-        }
+      .header-img:hover {
+        transform: scale(1.2) rotate(-10deg);
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="container mt-5 mb-5">
         <div class="card shadow-lg">
             <div class="card-header mb-5 text-center">
@@ -161,23 +168,142 @@
                 </div>
             </div>
         </div>
+      <div class="card shadow-lg">
+        <div class="card-header mb-5 text-center">
+          <img
+            src="{% static 'images/flower.png' %}"
+            class="header-img"
+            alt="Flower emoji"
+          />
+          PlantPal
+        </div>
+        <div class="container mt-5">
+          <div class="row">
+            <!-- Primera columna -->
+            <div class="col-md-6 mb-4">
+              <div class="p-4 rounded shadow-lg bg-light h-100">
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="name" class="font-weight-bold mb-2"
+                      >Name of the Plant:</label
+                    >
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      class="form-control form-control-lg rounded-pill shadow-sm"
+                      placeholder="Enter plant name"
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn btn-success btn-md mt-3 w-100 rounded-pill shadow"
+                  >
+                    Submit
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Segunda columna -->
+            <div class="col-md-6 mb-4">
+              <div
+                class="p-4 rounded shadow-lg bg-light h-100 d-flex justify-content-center align-items-center"
+              >
+                <p class="text-center">
+                  <strong>PlantPal</strong> is designed to help you monitor,
+                  nurture, and thrive with your plants. With real-time insights,
+                  PlantPal makes plant care easy and enjoyable for everyone.
+                  Whether you're a seasoned gardener or a beginner, we've got
+                  you covered!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {% if plant_name %}
+          <p class="text-center mt-5">
+            <strong>Monitoring Plant: {{ plant_name }}</strong>
+          </p>
+          {% else %}
+          <p>No plant name provided yet.</p>
+          {% endif %}
+        </div>
+        <div class="container mt-5">
+          <div class="row">
+            <div class="card-body col-md-6 mb-4">
+              <h4 class="card-title text-center">Latest Temperature Reading</h4>
+              <p class="temperature">
+                <img
+                  src="{% static 'images/plantemoji.jpg' %}"
+                  alt="Plant emoji"
+                  id="plantImage"
+                  class="animated-plant"
+                />
+              </p>
+            </div>
+            <!-- Segunda columna -->
+            <div class="col-md-6 mb-4">
+              <div class="p-4 text-center">
+                <div id="temperature">🌱 Temperature: -- °C</div>
+                <div id="air_humidity">🌱 Air Humidity: -- %</div>
+                <div id="soil_humidity">🌱 Soil Humidity: -- %</div>
+                <div id="timestamp">🌱 Timestamp: --</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        function checkTemperature(value) {
-            document.getElementById("temperatureValue").textContent = `Current Temperature: ${value} °C`;
+      let seconds = 0;
+      function checkTemperature(value) {
+        // Use backticks for string interpolation
+        document.getElementById(
+          "temperatureValue"
+        ).textContent = `Current Temperature: ${value} °C`;
 
-            const plantImage = document.getElementById("plantImage");
+        const plantImage = document.getElementById("plantImage");
 
-            if (value < 15) {
-                plantImage.style.transform = "scale(0.3)";
-            } else {
-                plantImage.style.transform = "scale(1)";
-            }
+        if (value < 15) {
+          plantImage.style.transform = "scale(0.3)";
+        } else {
+          plantImage.style.transform = "scale(1)";
         }
+      }
+      function fetchData() {
+        seconds+=1;
+        fetch("{% url 'main' %}", {
+          headers: {
+            "X-Requested-With": "XMLHttpRequest",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById(
+              "temperature"
+            ).textContent = `🌱 Temperature: ${data.temperature} °C`;
+            document.getElementById(
+              "air_humidity"
+            ).textContent = `🌱 Air Humidity: ${data.air_humidity}%`;
+            document.getElementById(
+              "soil_humidity"
+            ).textContent = `🌱 Soil Humidity: ${data.soil_humidity}%`;
+            document.getElementById(
+              "timestamp"
+            ).textContent = `🌱 Timestamp: ${data.timestamp}`;
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+
+      // Llamar a fetchData cada 15 segundos
+      setInterval(fetchData, 15000);
     </script>
-</body>
+  </body>
 </html>
