@@ -101,23 +101,18 @@
                                 <button type="submit" class="btn btn-success btn-md mt-3 w-100 rounded-pill shadow">Submit</button>
                             </form>
                         </div>
-                        <div class="p-4 rounded shadow-lg bg-light mt-5 mb-5 h-20">
+                        <form method="post" action="{% url 'main' %}">
+                          <div class="p-4 rounded shadow-lg bg-light mt-5 mb-5 h-20" >
                             <div class="d-flex justify-content-center">
-                                <select class="form-select form-select-lg mb-3">
+                                <select class="form-select form-select-lg mb-3" name="selected_plant">
                                     <option selected>Select the type of your plant</option>
-                                    <option value="1">Swiss Cheese Plant</option>
-                                    <option value="2">Rubber plant</option>
-                                    <option value="3">Snake Plant</option>
-                                    <option value="4">Photos</option>
-                                    <option value="5">Dracaena</option>
-                                    <option value="6">Peace Lily</option>
-                                    <option value="7">Calathea</option>
-                                    <option value="8">Philodendron</option>
-                                    <option value="9">ZZ Plant</option>
-                                    <option value="10">Spider Plant</option>
+                                    {% for plant in plants %}
+                                        <option value="{{ plant.id }}">{{plant.specie}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
-                        </div>   
+                        </div>  
+                         
                     </div>
                     <!-- Segunda columna -->
                     <div class="col-md-6 mb-4">
@@ -128,18 +123,21 @@
                                 Whether you're a seasoned gardener or a beginner, we've got you covered!
                             </p>
                         </div>
-                        <div class="p-4 rounded shadow-lg bg-light mt-5 mb-5 h-20">
-                            <div class="d-flex justify-content-center">
-                                <select class="form-select form-select-lg mb-3">
-                                    <option selected>Select the color of your Plant</option>
-                                    <option value="1">Yellow</option>
-                                    <option value="2">Green</option>
-                                    <option value="3">Red</option>
-                                    <option value="4">Pink</option>
-                                    <option value="5">Purple</option>
-                                </select>
+                            {% csrf_token %}
+                            <div class="p-4 rounded shadow-lg bg-light mt-5 mb-5">
+                                <div class="d-flex justify-content-center">
+                                    <select class="form-select form-select-lg mb-3" name="selected_color">
+                                        <option selected disabled>Select the color of your Plant</option>
+                                        <option value="Yellow">Yellow</option>
+                                        <option value="Green">Green</option>
+                                        <option value="Red">Red</option>
+                                        <option value="Pink">Pink</option>
+                                        <option value="Purple">Purple</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Color</button>
                             </div>
-                        </div>
+                        </form>                            
                     </div>
                 </div>     
                     
@@ -149,22 +147,63 @@
                     <p>No plant name provided yet.</p>
                 {% endif %}
             </div> 
-            <div class="container mt-15">
+            <div class="container mt-5 mb-5">
                 <div class="row">
-                    <div class="card-body col-md-6 mb-4">
+                    <div class="col-md-6 mb-4">
                         <h4 class="card-title text-center">Latest Temperature Reading</h4>
                         <p class="temperature">
-                            <img src="{% static 'images/plantemoji.jpg' %}" alt="Plant emoji" id="plantImage" class="animated-plant">
+                          {% if selected_plant == "1" %}
+                          <div>ok</div>
+                              {% if selected_color == "Yellow" %}
+                                  <img src="{% static 'images/yellowCheesePlant.png' %}" alt="Yellow" id="plantImage1" class="animated-plant">
+                              {% elif selected_color == "Green" %}
+                                  <img src="{% static 'images/greenSwissCheese.png' %}" alt="Green" id="plantImage2" class="animated-plant">
+                              {% elif selected_color == "Red" %}
+                                  <img src="{% static 'images/redSwissCheese.png' %}" alt="Red" id="plantImage3" class="animated-plant">
+                              {% elif selected_color == "Pink" %}
+                                  <img src="{% static 'images/pinkSwissCheese.png' %}" alt="Pink" id="plantImage4" class="animated-plant">
+                              {% else %}
+                                  <img src="{% static 'images/purpleSwissCheese.png' %}" alt="Purple" id="plantImage5" class="animated-plant">
+                              {% endif %}
+                          
+                          {% elif selected_plant == "2" %}
+                              {% if selected_color == "Yellow" %}
+                                  <img src="{% static 'images/yellowRubberPlant.png' %}" alt="Yellow2" id="plantImage6" class="animated-plant">
+                              {% elif selected_color == "Green" %}
+                                  <img src="{% static 'images/greenRubberPlant.png' %}" alt="Green2" id="plantImage7" class="animated-plant">
+                              {% elif selected_color == "Red" %}
+                                  <img src="{% static 'images/redRubberPlant.png' %}" alt="Red2" id="plantImage8" class="animated-plant">
+                              {% elif selected_color == "Pink" %}
+                                  <img src="{% static 'images/pinkRubberPlant.png' %}" alt="Pink2" id="plantImage9" class="animated-plant">
+                              {% else %}
+                                  <img src="{% static 'images/purpleRubberPlant.png' %}" alt="Purple2" id="plantImage10" class="animated-plant">
+                              {% endif %}
+                            {% elif selected_plant == "3" %}
+                              {% if selected_color == "Yellow" %}
+                                  <img src="{% static 'images/yellowRubberPlant.png' %}" alt="Yellow2" id="plantImage6" class="animated-plant">
+                              {% elif selected_color == "Green" %}
+                                  <img src="{% static 'images/greenRubberPlant.png' %}" alt="Green2" id="plantImage7" class="animated-plant">
+                              {% elif selected_color == "Red" %}
+                                  <img src="{% static 'images/redRubberPlant.png' %}" alt="Red2" id="plantImage8" class="animated-plant">
+                              {% elif selected_color == "Pink" %}
+                                  <img src="{% static 'images/pinkRubberPlant.png' %}" alt="Pink2" id="plantImage9" class="animated-plant">
+                              {% else %}
+                                  <img src="{% static 'images/purpleRubberPlant.png' %}" alt="Purple2" id="plantImage10" class="animated-plant">
+                              {% endif %}
+                          {% endif %}
                         </p>
                     </div>
-                     <div class="col-md-6 mb-4">
-                        <div class="p-4 text-center">
-                            <div id="temperature">🌱 Temperature: -- °C</div>
-                            <div id="air_humidity">🌱 Air Humidity: -- %</div>
-                            <div id="soil_humidity">🌱 Soil Humidity: -- %</div>
-                            <div id="timestamp">🌱 Timestamp: --</div>
-                        </div>
+                </div>
+            </div>
+            
+                <div class="col-md-6 mb-4">
+                    <div class="p-4 text-center">
+                        <div id="temperature">🌱 Temperature: -- °C</div>
+                        <div id="air_humidity">🌱 Air Humidity: -- %</div>
+                        <div id="soil_humidity">🌱 Soil Humidity: -- %</div>
+                        <div id="timestamp">🌱 Timestamp: --</div>
                     </div>
+                </div>
                 </div>
             </div>
         </div>
