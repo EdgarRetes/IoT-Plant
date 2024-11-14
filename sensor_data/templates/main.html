@@ -45,9 +45,9 @@
       /* Animation for the plant image */
       .animated-plant {
         width: 500px;
-        height: 700px;
-        justify-content: center;
+        height: 600px;
         align-items: center;
+        justify-content: center;
         animation: grow-shrink 3s ease-in-out infinite;
         transition: transform 0.3s ease;
       }
@@ -96,11 +96,16 @@
                                 {% csrf_token %}
                                 <div class="form-group">
                                     <label for="name" class="font-weight-bold mb-2">Name of the Plant:</label>
-                                    <input type="text" id="name" name="name" class="form-control form-control-lg rounded-pill shadow-sm" placeholder="Enter plant name" required>
+                                    <input type="text" id="selected_name" value="selected_name" name="selected_name" form-control form-control-lg rounded-pill shadow-sm" placeholder="Enter plant name" required>
                                 </div>
                                 <button type="submit" class="btn btn-success btn-md mt-3 w-100 rounded-pill shadow">Submit</button>
                             </form>
                         </div>
+                        {% if plant_name %}
+                            <p class="text-center mt-5"><strong>Monitoring Plant: {{ plant_name }}</strong></p>
+                        {% else %}
+                            <p>No plant name provided yet.</p>
+                        {% endif %}
                         <form method="post" action="{% url 'main' %}">
                           <div class="p-4 rounded shadow-lg bg-light mt-5 mb-5 h-20" >
                             <div class="d-flex justify-content-center">
@@ -111,9 +116,9 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                        </div>  
-                         
+                        </div>                          
                     </div>
+
                     <!-- Segunda columna -->
                     <div class="col-md-6 mb-4">
                         <div class="p-4 rounded shadow-lg bg-light h-100 d-flex justify-content-center align-items-center">
@@ -140,57 +145,86 @@
                         </form>                            
                     </div>
                 </div>     
-                    
-                {% if plant_name %}
-                    <p class="text-center mt-5"><strong>Monitoring Plant: {{ plant_name }}</strong></p>
-                {% else %}
-                    <p>No plant name provided yet.</p>
-                {% endif %}
+      
             </div> 
             <div class="container mt-5 mb-5">
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <h4 class="card-title text-center">Latest Temperature Reading</h4>
                         <p class="temperature">
-                          {% if selected_plant == "1" %}
-                          <div>ok</div>
-                              {% if selected_color == "Yellow" %}
-                                  <img src="{% static 'images/yellowCheesePlant.png' %}" alt="Yellow" id="plantImage1" class="animated-plant">
-                              {% elif selected_color == "Green" %}
-                                  <img src="{% static 'images/greenSwissCheese.png' %}" alt="Green" id="plantImage2" class="animated-plant">
-                              {% elif selected_color == "Red" %}
-                                  <img src="{% static 'images/redSwissCheese.png' %}" alt="Red" id="plantImage3" class="animated-plant">
-                              {% elif selected_color == "Pink" %}
-                                  <img src="{% static 'images/pinkSwissCheese.png' %}" alt="Pink" id="plantImage4" class="animated-plant">
-                              {% else %}
-                                  <img src="{% static 'images/purpleSwissCheese.png' %}" alt="Purple" id="plantImage5" class="animated-plant">
-                              {% endif %}
-                          
-                          {% elif selected_plant == "2" %}
-                              {% if selected_color == "Yellow" %}
-                                  <img src="{% static 'images/yellowRubberPlant.png' %}" alt="Yellow2" id="plantImage6" class="animated-plant">
-                              {% elif selected_color == "Green" %}
-                                  <img src="{% static 'images/greenRubberPlant.png' %}" alt="Green2" id="plantImage7" class="animated-plant">
-                              {% elif selected_color == "Red" %}
-                                  <img src="{% static 'images/redRubberPlant.png' %}" alt="Red2" id="plantImage8" class="animated-plant">
-                              {% elif selected_color == "Pink" %}
-                                  <img src="{% static 'images/pinkRubberPlant.png' %}" alt="Pink2" id="plantImage9" class="animated-plant">
-                              {% else %}
-                                  <img src="{% static 'images/purpleRubberPlant.png' %}" alt="Purple2" id="plantImage10" class="animated-plant">
-                              {% endif %}
-                            {% elif selected_plant == "3" %}
-                              {% if selected_color == "Yellow" %}
-                                  <img src="{% static 'images/yellowRubberPlant.png' %}" alt="Yellow2" id="plantImage6" class="animated-plant">
-                              {% elif selected_color == "Green" %}
-                                  <img src="{% static 'images/greenRubberPlant.png' %}" alt="Green2" id="plantImage7" class="animated-plant">
-                              {% elif selected_color == "Red" %}
-                                  <img src="{% static 'images/redRubberPlant.png' %}" alt="Red2" id="plantImage8" class="animated-plant">
-                              {% elif selected_color == "Pink" %}
-                                  <img src="{% static 'images/pinkRubberPlant.png' %}" alt="Pink2" id="plantImage9" class="animated-plant">
-                              {% else %}
-                                  <img src="{% static 'images/purpleRubberPlant.png' %}" alt="Purple2" id="plantImage10" class="animated-plant">
-                              {% endif %}
-                          {% endif %}
+                          {% if selected_plant == 1 %}
+                            {% if selected_color == "Yellow" %}
+                                <img src="{% static 'images/yellowCheesePlant.png' %}" alt="Yellow" id="plantImage1" class="animated-plant">
+                            {% elif selected_color == "Green" %}
+                                <img src="{% static 'images/greenSwissCheese.png' %}" alt="Green" id="plantImage2" class="animated-plant">
+                            {% elif selected_color == "Red" %}
+                                <img src="{% static 'images/redSwissCheese.png' %}" alt="Red" id="plantImage3" class="animated-plant">
+                            {% elif selected_color == "Pink" %}
+                                <img src="{% static 'images/pinkSwissCheese.png' %}" alt="Pink" id="plantImage4" class="animated-plant">
+                            {% else %}
+                                <img src="{% static 'images/purpleSwissCheese.png' %}" alt="Purple" id="plantImage5" class="animated-plant">
+                            {% endif %}
+                          {% elif selected_plant == 2 %}
+                            {% if selected_color == "Yellow" %}
+                                <img src="{% static 'images/yellowRubberPlant.png' %}" alt="Yellow2" id="plantImage6" class="animated-plant">
+                            {% elif selected_color == "Green" %}
+                                <img src="{% static 'images/greenRubberPlant.png' %}" alt="Green2" id="plantImage7" class="animated-plant">
+                            {% elif selected_color == "Red" %}
+                                <img src="{% static 'images/redRubberPlant.png' %}" alt="Red2" id="plantImage8" class="animated-plant">
+                            {% elif selected_color == "Pink" %}
+                                <img src="{% static 'images/pinkRubberPlant.png' %}" alt="Pink2" id="plantImage9" class="animated-plant">
+                            {% else %}
+                                <img src="{% static 'images/purpleRubberPlant.png' %}" alt="Purple2" id="plantImage10" class="animated-plant">
+                            {% endif %}
+                          {% elif selected_plant == 3 %}
+                            {% if selected_color == "Yellow" %}
+                                <img src="{% static 'images/yellowSnakePlant.png' %}" alt="Yellow3" id="plantImage11" class="animated-plant">
+                            {% elif selected_color == "Green" %}
+                                <img src="{% static 'images/greenSnakePlant.png' %}" alt="Green3" id="plantImage12" class="animated-plant">
+                            {% elif selected_color == "Red" %}
+                                <img src="{% static 'images/redSnakePlant.png' %}" alt="Red3" id="plantImage13" class="animated-plant">
+                            {% elif selected_color == "Pink" %}
+                                <img src="{% static 'images/pinkSnakePlant.png' %}" alt="Pink3" id="plantImage14" class="animated-plant">
+                            {% else %}
+                                <img src="{% static 'images/purpleSnakePlant.png' %}" alt="Purple3" id="plantImage15" class="animated-plant">
+                            {% endif %}
+                          {% elif selected_plant == 4 %}
+                            {% if selected_color == "Yellow" %}
+                                <img src="{% static 'images/yellowPhotsPlant.png' %}" alt="Yellow4" id="plantImage16" class="animated-plant">
+                            {% elif selected_color == "Green" %}
+                                <img src="{% static 'images/greenPhotosPlant.png' %}" alt="Green4" id="plantImage17" class="animated-plant">
+                            {% elif selected_color == "Red" %}
+                                <img src="{% static 'images/redPhotosPlant.png' %}" alt="Red4" id="plantImage18" class="animated-plant">
+                            {% elif selected_color == "Pink" %}
+                                <img src="{% static 'images/pinkPhotosPlant.png' %}" alt="Pink4" id="plantImage19" class="animated-plant">
+                            {% else %}
+                                <img src="{% static 'images/purplePhotosPlant.png' %}" alt="Purple4" id="plantImage20 " class="animated-plant">
+                            {% endif %}
+                          {% elif selected_plant == 5 %}
+                            {% if selected_color == "Yellow" %}
+                                <img src="{% static 'images/yellowDracena.png' %}" alt="Yellow5" id="plantImage21" class="animated-plant">
+                            {% elif selected_color == "Green" %}
+                                <img src="{% static 'images/greenDracena.png' %}" alt="Green5" id="plantImage22" class="animated-plant">
+                            {% elif selected_color == "Red" %}
+                                <img src="{% static 'images/redDracena.png' %}" alt="Red5" id="plantImage23" class="animated-plant">
+                            {% elif selected_color == "Pink" %}
+                                <img src="{% static 'images/pinkDracaena.png' %}" alt="Pink5" id="plantImage24" class="animated-plant">
+                            {% else %}
+                                <img src="{% static 'images/purpleDracaena.png' %}" alt="Purple5" id="plantImage25 " class="animated-plant">
+                            {% endif %}
+                          {% elif selected_plant == 6 %}
+                            {% if selected_color == "Yellow" %}
+                                <img src="{% static 'images/yellowPeaceLily.png' %}" alt="Yellow6" id="plantImage26" class="animated-plant">
+                            {% elif selected_color == "Green" %}
+                                <img src="{% static 'images/greenPeaceLily.png' %}" alt="Green6" id="plantImage27" class="animated-plant">
+                            {% elif selected_color == "Red" %}
+                                <img src="{% static 'images/redPeaceLily.png' %}" alt="Red6" id="plantImage28" class="animated-plant">
+                            {% elif selected_color == "Pink" %}
+                                <img src="{% static 'images/pinkPeaceLily.png' %}" alt="Pink6" id="plantImage29" class="animated-plant">
+                            {% else %}
+                                <img src="{% static 'images/purplePeaceLily.png' %}" alt="Purple6" id="plantImage30 " class="animated-plant">
+                            {% endif %}
+                        {% endif %}
                         </p>
                     </div>
                 </div>

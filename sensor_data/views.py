@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from .models import Sensor, Plant, Data
+from .models import Sensor, Plant, Data, Pot
 from .sensor import get_temperature, get_air_humidity, get_soil_humidity
 
 def load_data():
@@ -21,22 +21,34 @@ def load_data():
             Plant(specie="Dracaena", max_temp=27, min_temp=18, max_soil_humidity=40, min_soil_humidity=30, max_air_humidity=60, min_air_humidity=40),
             Plant(specie="Peace Lily", max_temp=27, min_temp=18, max_soil_humidity=60, min_soil_humidity=50, max_air_humidity=70, min_air_humidity=50),
         ])
+    
+    if not Pot.objects.exists():
+       if not Pot.objects.exists():
+        default_plant = Plant.objects.first()  
+        temp_sensor = Sensor.objects.get(id=1)  
+        soil_sensor = Sensor.objects.get(id=2) 
+        air_sensor = Sensor.objects.get(id=3) 
+        default_plant = Plant.objects.first() 
+        Pot.objects.bulk_create([
+            Pot(plant=default_plant, temp_sensor=temp_sensor, soil_sensor=soil_sensor, air_sensor=air_sensor)  
+        ])
 
 def main(request):
-    load_data()
-
-    selected_color = None
-    selected_plant = None
+    load_data()   
 
     if request.method == 'POST':
-        selected_color = request.POST.get('selected_color')
-        print(request.POST.get('selected_color'))
-        print(request.POST.get('selected_plant'))
-        selected_plant = request.POST.get('selected_plant')
-
+        pot = Pot.objects.first()
+        if request.POST.get('selected_color'):
+            pot.color = request.POST.get('selected_color')
+            pot.save()
+        if request.POST.get('selected_plant'):
+            pot.plant = Plant.objects.get(id=request.POST.get('selected_plant'))
+            pot.save()
+        if request.POST.get('selected_name'):
+            pot.name = request.POST.get('selected_name')
+            pot.save()
 
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        # Get and save sensor data only if request is AJAX
         temperature = get_temperature()
         air_humidity = get_air_humidity()
         soil_humidity = get_soil_humidity()
@@ -55,17 +67,14 @@ def main(request):
             'timestamp': latest_data[0].timestamp
         })
 
-         
-
-    # Non-AJAX request: get all data and render the main template
     registries = Data.objects.all()
     plants = Plant.objects.all()
-    plant_color = request.session.get('selected_plant_color', 'No color selected')  # Get plant color from session
+    pot = Pot.objects.get(id=1)
 
     return render(request, 'main.html', { 
         'registries': registries, 
-        'plant_name': request.POST.get("name"), 
+        'plant_name': pot.name, 
         'plants': plants,
-        'selected_color': selected_color, 
-        'selected_plant' : selected_plant,
+        'selected_color': pot.color, 
+        'selected_plant' : pot.plant.id,
     })
