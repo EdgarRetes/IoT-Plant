@@ -26,9 +26,11 @@ class Pot(models.Model):
     temp_sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, related_name="temp_sensor_pot")
     soil_sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, related_name="soil_sensor_pot")
     air_sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, related_name="air_sensor_pot")
+    name = models.CharField(max_length=100)
+    color = models.CharField(max_length=100)
 
     def __str__(self):
-        return "Pot"
+        return  self.name
     
 class Data(models.Model):
     lecture = models.FloatField()
