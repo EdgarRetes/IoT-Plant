@@ -105,7 +105,7 @@
             text-align: center;
             margin-top: 20px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-            width: 90%;
+            width: 65%;
             max-width: 400px;
             transition: background-color 0.3s ease;
         }
@@ -248,12 +248,20 @@
                             {% endif %}
                         {% endif %}
 
-                        <div class="card" style="width: 200px; height: 100px; align-items: center; justify-content: center;">
-                            <div>
-                                <div id="temperature">🌱 Temperature: -- °C</div>
-                                <div id="air_humidity">🌱 Air Humidity: -- %</div>
-                                <div id="soil_humidity">🌱 Soil Humidity: -- %</div>
-                                <div id="timestamp">🌱 Timestamp: --</div>
+                        <div>
+                            <div class="card-message">
+                                <p id="temperature-message"></p>
+                                <p id="airHumidity-message"></p>
+                                <p id="soil-message"></p>
+                            </div>
+
+                            <div class="card" style="width: 200px; height: 100px; align-items: center; justify-content: center;">
+                                <div>
+                                    <div id="temperature">🌱 Temperature: -- °C</div>
+                                    <div id="air_humidity">🌱 Air Humidity: -- %</div>
+                                    <div id="soil_humidity">🌱 Soil Humidity: -- %</div>
+                                    <div id="timestamp">🌱 Timestamp: --</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -261,11 +269,6 @@
                     
                 </div>
 
-            </div>
-            <div class="card-message">
-                <p id="temperature-message"></p>
-                <p id="airHumidity-message"></p>
-                <p id="soil-message"></p>
             </div>
         </div>
 
