@@ -47,6 +47,9 @@ def main(request):
         if request.POST.get('selected_name'):
             pot.name = request.POST.get('selected_name')
             pot.save()
+     
+
+
 
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         temperature = get_temperature()
