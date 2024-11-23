@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from .models import Sensor, Plant, Data, Pot
 from .sensor import get_temperature, get_air_humidity, get_soil_humidity
+import json
 
 def load_data():
     if not Sensor.objects.exists():
@@ -73,6 +74,9 @@ def main(request):
     registries = Data.objects.all()
     plants = Plant.objects.all()
     pot = Pot.objects.get(id=1)
+    temperature_data = list(Data.objects.filter(sensor=Sensor.objects.get(id=1)).values('timestamp', 'lecture'))
+    soil_data = list(Data.objects.filter(sensor=Sensor.objects.get(id=2)).values('timestamp', 'lecture'))
+    air_data = list(Data.objects.filter(sensor=Sensor.objects.get(id=3)).values('timestamp', 'lecture'))
 
     return render(request, 'main.html', { 
         'registries': registries, 
@@ -80,4 +84,7 @@ def main(request):
         'plants': plants,
         'selected_color': pot.color, 
         'selected_plant' : pot.plant.id,
+        'temperature': json.dumps(temperature_data),
+        'soil': json.dumps(soil_data),
+        'air': json.dumps(air_data),
     })
