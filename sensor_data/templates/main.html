@@ -4,217 +4,340 @@
     {% load static %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Plant Temperature</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
+    <title>Test Background</title>
+    <link href="https://fonts.googleapis.com/css2?family=Koulen&display=swap" rel="stylesheet">
     <style>
-      /* Custom background gradient for the body */
-      body {
-        background: linear-gradient(135deg, #e0f7fa, #aed581);
-        color: #34495e;
-      }
-      .card {
-        border-radius: 50px;
-        overflow: hidden;
-      }
-      .card-header {
-        background-color: #43a047;
-        color: #ffffff;
-        font-size: 1.5rem;
-      }
-      .card-body {
-        background-color: #ffffff;
-        color: #34495e;
-      }
-      .card-footer {
-        background-color: #e8f5e9;
-        color: #388e3c;
-      }
-      .temperature {
-        font-size: 3rem;
-        font-weight: bold;
-        color: #ff7043;
-      }
-      .timestamp {
-        font-size: 1rem;
-        color: #607d8b;
-      }
-
-      /* Animation for the plant image */
-      .animated-plant {
-        width: 500px;
-        height: 700px;
-        justify-content: center;
-        align-items: center;
-        animation: grow-shrink 3s ease-in-out infinite;
-        transition: transform 0.3s ease;
-      }
-
-      /* Plant image grows and shrinks */
-      @keyframes grow-shrink {
-        0%,
-        100% {
-          transform: scale(1);
+        /* Fondo general con degradado */
+        body {
+            margin: 0;
+            background: linear-gradient(to bottom, #7DA6A1, #305A5F);
+            font-family: "Koulen", sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 100px;
         }
-        50% {
-          transform: scale(1.05);
+
+        /* Contenedor del encabezado */
+        header {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 30px;
+            box-sizing: border-box;
+            background: transparent;
         }
-      }
+        .button {
+            background: transparent;
+            color: white;
+            border: none;
+            font-family: "Roboto", sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-left: 20px;
+            padding: 10px 15px;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+        }
 
-      /* Hover effect for the plant image */
-      .animated-plant:hover {
-        transform: scale(1.5) rotate(12deg);
-        cursor: pointer;
-      }
+        .button:hover {
+            color: #eee;
+            border-bottom: 2px solid white;
+        }
 
-      /* Hover effect for header image */
-      .header-img {
-        width: 50px;
-        height: 75px;
-        transition: transform 0.3s ease;
-      }
+        /* Contenedor del contenido principal */
+        .main-content {
+            text-align: center;
+            margin-top: 50px;
+        }
 
-      .header-img:hover {
-        transform: scale(1.2) rotate(-10deg);
-      }
+        /* Título principal */
+        .main-content h1 {
+            font-size: 200px;
+            margin: 0;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* Texto secundario */
+        .main-content p {
+            font-size: 24px;
+            font-family: "Roboto", sans-serif;
+            font-weight: 300px;
+        }
+
+        /* Imagen decorativa */
+        .plant-image {
+            position: absolute;
+            bottom: 300px;
+            right:80px;
+            width:400px;
+        }
+        .plant{
+            align-items: center;
+            justify-content: center;
+            width:500px;
+            margin-right: 30px;
+        }
+        .card {
+            background-color: #3F5F5C; /* Color aproximado al fondo de los inputs */
+            color: white;
+            padding: 15px 20px;
+            border-radius: 20px; /* Bordes redondeados */
+            font-size: 16px;
+            margin: 10px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+            display: flex;
+            align-items: flex-start;
+            max-width:350px;
+            margin-right:30px;
+        }
+        .card-message{
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            width: 65%;
+            max-width: 400px;
+            transition: background-color 0.3s ease;
+        }
+         /* Section settings */
+        .section {
+        display: flex;
+        justify-content: flex-start;
+        padding: 16px;
+        text-align: center;
+        }
+
     </style>
-  </head>
-  <body>
-    <div class="container mt-5 mb-5">
-        <div class="card shadow-lg">
-            <div class="card-header mb-5 text-center">
-                <img src="{% static 'images/flower.png' %}" class="header-img" alt="Flower emoji"> PlantPal 
-            </div>
-            <div class="container mt-5">
-                <div class="row align-items-center">
-                    <!-- Primera columna -->
-                    <div class="col-md-6 mb-4">
-                        <div class="p-4 rounded shadow-lg bg-light h-100">
-                            <form method="post">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    <label for="name" class="font-weight-bold mb-2">Name of the Plant:</label>
-                                    <input type="text" id="name" name="name" class="form-control form-control-lg rounded-pill shadow-sm" placeholder="Enter plant name" required>
-                                </div>
-                                <button type="submit" class="btn btn-success btn-md mt-3 w-100 rounded-pill shadow">Submit</button>
-                            </form>
+    </head>
+    <body>
+        <header>
+            <button class="button" onclick="showProject('recomendations')"> RECOMMENDATIONS </button>
+            <button class="button" onclick="showProject('graphics')"> GRAPHICS </button>
+        </header>
+
+        <!-- Main content -->
+        <div class="main-content" style="margin-bottom: 70px;">
+            <h1 style="margin-top:150px;">PLANTPAL</h1>
+            <p style="margin-bottom:120px;">NO TE PREOCUPES MAS POR CUIDARLA, PLANTPAL LO HACE POR TI</p>
+        </div>
+
+        <!-- Image -->
+
+        <img src="{% static 'images/FrontPageFlower.png' %}" alt="Plant Illustration" class="plant-image" style="margin-left:30px">
+        
+        <div class="flex justify-start">
+            <div class="section">
+                <!-- Cards -->                    
+                <div class="card" style="width:300px;">
+                    <form method="post" action="{% url 'main' %}">
+                        {% csrf_token %}
+                        <label for="selected_plant">Select the Type of Your Plant:</label>
+                        <select id="selected_plant" name="selected_plant">
+                            <option selected>Select type</option>
+                            {% for plant in plants %}
+                                <option value="{{ plant.id }}">{{ plant.specie }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+
+                <!-- Formulario 3: Color de la planta -->
+                <div class="card">
+                    <div class="d-flex justify-content-center">
+                        <form method="post" action="{% url 'main' %}">
+                            {% csrf_token %}
+                            <label for="selected_plant">Select the Color of your Plant</label>
+                            <select class="form-select form-select-lg mb-3" name="selected_color">
+                                <option selected disabled>Select the color of your Plant</option>
+                                <option value="Yellow">Yellow</option>
+                                <option value="Green">Green</option>
+                                <option value="Red">Red</option>
+                                <option value="Pink">Pink</option>
+                                <option value="Purple">Purple</option>
+                            </select>
                         </div>
-                        <div class="p-4 rounded shadow-lg bg-light mt-5 mb-5 h-20">
-                            <div class="d-flex justify-content-center">
-                                <select class="form-select form-select-lg mb-3">
-                                    <option selected>Select the type of your plant</option>
-                                    <option value="1">Swiss Cheese Plant</option>
-                                    <option value="2">Rubber plant</option>
-                                    <option value="3">Snake Plant</option>
-                                    <option value="4">Photos</option>
-                                    <option value="5">Dracaena</option>
-                                    <option value="6">Peace Lily</option>
-                                    <option value="7">Calathea</option>
-                                    <option value="8">Philodendron</option>
-                                    <option value="9">ZZ Plant</option>
-                                    <option value="10">Spider Plant</option>
-                                </select>
-                            </div>
-                        </div>   
-                    </div>
-                    <!-- Segunda columna -->
-                    <div class="col-md-6 mb-4">
-                        <div class="p-4 rounded shadow-lg bg-light h-100 d-flex justify-content-center align-items-center">
-                            <p class="text-center">  
-                                <strong>PlantPal</strong> is designed to help you monitor, nurture, and thrive with your plants.
-                                With real-time insights, PlantPal makes plant care easy and enjoyable for everyone.
-                                Whether you're a seasoned gardener or a beginner, we've got you covered!
-                            </p>
-                        </div>
-                        <div class="p-4 rounded shadow-lg bg-light mt-5 mb-5 h-20">
-                            <div class="d-flex justify-content-center">
-                                <select class="form-select form-select-lg mb-3">
-                                    <option selected>Select the color of your Plant</option>
-                                    <option value="1">Yellow</option>
-                                    <option value="2">Green</option>
-                                    <option value="3">Red</option>
-                                    <option value="4">Pink</option>
-                                    <option value="5">Purple</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>     
-                    
-                {% if plant_name %}
-                    <p class="text-center mt-5"><strong>Monitoring Plant: {{ plant_name }}</strong></p>
-                {% else %}
-                    <p>No plant name provided yet.</p>
-                {% endif %}
-            </div> 
-            <div class="container mt-15">
-                <div class="row">
-                    <div class="card-body col-md-6 mb-4">
-                        <h4 class="card-title text-center">Latest Temperature Reading</h4>
-                        <p class="temperature">
-                            <img src="{% static 'images/plantemoji.jpg' %}" alt="Plant emoji" id="plantImage" class="animated-plant">
-                        </p>
-                    </div>
-                     <div class="col-md-6 mb-4">
-                        <div class="p-4 text-center">
-                            <div id="temperature">🌱 Temperature: -- °C</div>
-                            <div id="air_humidity">🌱 Air Humidity: -- %</div>
-                            <div id="soil_humidity">🌱 Soil Humidity: -- %</div>
-                            <div id="timestamp">🌱 Timestamp: --</div>
-                        </div>
+                        <button type="submit">Save Color</button>
+                        </form>
                     </div>
                 </div>
             </div>
+
+                <div class="section">
+                        {% if selected_plant == 1 %}
+                            {% if selected_color == "Yellow" %}
+                                <img src="{% static 'images/yellowCheesePlant.png' %}" alt="Yellow" id="plantImage1" class="plant">
+                            {% elif selected_color == "Green" %}
+                                <img src="{% static 'images/greenSwissCheese.png' %}" alt="Green" id="plantImage2" class="plant">
+                            {% elif selected_color == "Red" %}
+                                <img src="{% static 'images/redSwissCheese.png' %}" alt="Red" id="plantImage3" class="plant">
+                            {% elif selected_color == "Pink" %}
+                                <img src="{% static 'images/pinkSwissCheese.png' %}" alt="Pink" id="plantImage4" class="plant">
+                            {% else %}
+                                <img src="{% static 'images/purpleSwissCheese.png' %}" alt="Purple" id="plantImage5" class="plant">
+                            {% endif %}
+                        {% elif selected_plant == 2 %}
+                            {% if selected_color == "Yellow" %}
+                                <img src="{% static 'images/yellowRubberPlant.png' %}" alt="Yellow2" id="plantImage6" class="plant">
+                            {% elif selected_color == "Green" %}
+                                <img src="{% static 'images/greenRubberPlant.png' %}" alt="Green2" id="plantImage7" class="plant">
+                            {% elif selected_color == "Red" %}
+                                <img src="{% static 'images/redRubberPlant.png' %}" alt="Red2" id="plantImage8" class="plant">
+                            {% elif selected_color == "Pink" %}
+                                <img src="{% static 'images/pinkRubberPlant.png' %}" alt="Pink2" id="plantImage9" class="plant">
+                            {% else %}
+                                <img src="{% static 'images/purpleRubberPlant.png' %}" alt="Purple2" id="plantImage10" class="plant">
+                            {% endif %}
+                        {% elif selected_plant == 3 %}
+                            {% if selected_color == "Yellow" %}
+                                <img src="{% static 'images/yellowSnakePlant.png' %}" alt="Yellow3" id="plantImage11" class="plant">
+                            {% elif selected_color == "Green" %}
+                                <img src="{% static 'images/greenSnakePlant.png' %}" alt="Green3" id="plantImage12" class="plant">
+                            {% elif selected_color == "Red" %}
+                                <img src="{% static 'images/redSnakePlant.png' %}" alt="Red3" id="plantImage13" class="plant">
+                            {% elif selected_color == "Pink" %}
+                                <img src="{% static 'images/pinkSnakePlant.png' %}" alt="Pink3" id="plantImage14" class="plant">
+                            {% else %}
+                                <img src="{% static 'images/purpleSnakePlant.png' %}" alt="Purple3" id="plantImage15" class="plant">
+                            {% endif %}
+                        {% elif selected_plant == 4 %}
+                            {% if selected_color == "Yellow" %}
+                                <img src="{% static 'images/yellowPhotsPlant.png' %}" alt="Yellow4" id="plantImage16" class="plant">
+                            {% elif selected_color == "Green" %}
+                                <img src="{% static 'images/greenPhotosPlant.png' %}" alt="Green4" id="plantImage17" class="plant">
+                            {% elif selected_color == "Red" %}
+                                <img src="{% static 'images/redPhotosPlant.png' %}" alt="Red4" id="plantImage18" class="plant">
+                            {% elif selected_color == "Pink" %}
+                                <img src="{% static 'images/pinkPhotosPlant.png' %}" alt="Pink4" id="plantImage19" class="plant">
+                            {% else %}
+                                <img src="{% static 'images/purplePhotosPlant.png' %}" alt="Purple4" id="plantImage20 " class="plant">
+                            {% endif %}
+                        {% elif selected_plant == 5 %}
+                            {% if selected_color == "Yellow" %}
+                                <img src="{% static 'images/yellowDracena.png' %}" alt="Yellow5" id="plantImage21" class="plant">
+                            {% elif selected_color == "Green" %}
+                                <img src="{% static 'images/greenDracena.png' %}" alt="Green5" id="plantImage22" class="plant">
+                            {% elif selected_color == "Red" %}
+                                <img src="{% static 'images/redDracena.png' %}" alt="Red5" id="plantImage23" class="plant">
+                            {% elif selected_color == "Pink" %}
+                                <img src="{% static 'images/pinkDracaena.png' %}" alt="Pink5" id="plantImage24" class="plant">
+                            {% else %}
+                                <img src="{% static 'images/purpleDracaena.png' %}" alt="Purple5" id="plantImage25 " class="plant">
+                            {% endif %}
+                        {% elif selected_plant == 6 %}
+                            {% if selected_color == "Yellow" %}
+                                <img src="{% static 'images/yellowPeaceLily.png' %}" alt="Yellow6" id="plantImage26" class="plant">
+                            {% elif selected_color == "Green" %}
+                                <img src="{% static 'images/greenPeaceLily.png' %}" alt="Green6" id="plantImage27" class="plant">
+                            {% elif selected_color == "Red" %}
+                                <img src="{% static 'images/redPeaceLily.png' %}" alt="Red6" id="plantImage28" class="plant">
+                            {% elif selected_color == "Pink" %}
+                                <img src="{% static 'images/pinkPeaceLily.png' %}" alt="Pink6" id="plantImage29" class="plant">
+                            {% else %}
+                                <img src="{% static 'images/purplePeaceLily.png' %}" alt="Purple6" id="plantImage30 " class="plant">
+                            {% endif %}
+                        {% endif %}
+
+                        <div>
+                            <div class="card-message">
+                                <p id="temperature-message"></p>
+                                <p id="airHumidity-message"></p>
+                                <p id="soil-message"></p>
+                            </div>
+
+                            <div class="card" style="width: 200px; height: 100px; align-items: center; justify-content: center;">
+                                <div>
+                                    <div id="temperature">🌱 Temperature: -- °C</div>
+                                    <div id="air_humidity">🌱 Air Humidity: -- %</div>
+                                    <div id="soil_humidity">🌱 Soil Humidity: -- %</div>
+                                    <div id="timestamp">🌱 Timestamp: --</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+            </div>
         </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-      let seconds = 0;
-      function checkTemperature(value) {
-        // Use backticks for string interpolation
-        document.getElementById(
-          "temperatureValue"
-        ).textContent = `Current Temperature: ${value} °C`;
 
-        const plantImage = document.getElementById("plantImage");
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            function fetchData() {
+                fetch("{% url 'main' %}", {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                    },
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        // Update temperature, humidity, etc.
+                        document.getElementById("temperature").textContent = `🌱 Temperature: ${data.temperature} °C`;
+                        document.getElementById("air_humidity").textContent = `🌱 Air Humidity: ${data.air_humidity}%`;
+                        document.getElementById("soil_humidity").textContent = `🌱 Soil Humidity: ${data.soil_humidity}%`;
+                        document.getElementById("timestamp").textContent = `🌱 Timestamp: ${data.timestamp}`;
 
-        if (value < 15) {
-          plantImage.style.transform = "scale(0.3)";
-        } else {
-          plantImage.style.transform = "scale(1)";
-        }
-      }
-      function fetchData() {
-        seconds+=1;
-        fetch("{% url 'main' %}", {
-          headers: {
-            "X-Requested-With": "XMLHttpRequest",
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            document.getElementById(
-              "temperature"
-            ).textContent = `🌱 Temperature: ${data.temperature} °C`;
-            document.getElementById(
-              "air_humidity"
-            ).textContent = `🌱 Air Humidity: ${data.air_humidity}%`;
-            document.getElementById(
-              "soil_humidity"
-            ).textContent = `🌱 Soil Humidity: ${data.soil_humidity}%`;
-            document.getElementById(
-              "timestamp"
-            ).textContent = `🌱 Timestamp: ${data.timestamp}`;
-          })
-          .catch((error) => console.error("Error:", error));
-      }
+                        // Get the plant name
+                        const plantNameInput = document.getElementById("selected_name");
+                        const selectedName = plantNameInput ? plantNameInput.value : "la planta";
 
-      // Llamar a fetchData cada 15 segundos
-      setInterval(fetchData, 15000);
-    </script>
-  </body>
+                        // Display a temperature-related message
+                        const temperatureMessage = document.getElementById("temperature-message");
+                        if (temperatureMessage) {
+                            if (data.temperature < 15) {
+                                temperatureMessage.textContent = `La temperatura de tu planta esta muy baja. Manten tu planta caliente.`;
+                            } else if (data.temperature > 30) {
+                                temperatureMessage.textContent = `La temperatura de tu planta esta muy alta. Manten tu planta hidratada.`;
+                            } else {
+                                temperatureMessage.textContent = `La temperatura de tu planta esta en un rango optimo. Tu planta esta feliz.`;
+                            }
+                        }
+
+                        //DISPLAY AN AIR HUMIDITY-RELATED MESSAGE
+                        const airHumidityMessage = document.getElementById("airHumidity-message");
+                        if (airHumidityMessage){
+                            if (data.air_humidity < 50){
+                                airHumidityMessage.textContent = `La humedad del aire de tu planta esta muy baja`;
+                            } else if (data.air_humidity > 80){
+                                airHumidityMessage.textContent = `La humedad del aire de tu planta esta muy alta`;
+                            } else {
+                                airHumidityMessage.textContent = `La humedad del aire de tu planta esta en un rango optimo`;
+                            }
+                        }
+
+                        //DISPLAY A SOIL HUMIDITY-RELATED MESSAGE
+                        const soilHumidityMessage = document.getElementBy("soil-message");
+                        if (soilHumidityMessage){
+                            if (data.soil_humidity < 20){
+                                soilHumidityMessage.textContent = `La humedad del suelo de tu planta esta muy baja`;
+                            } else if(data.soil_humidity > 60){
+                                soilHumidityMessage.textContent = `La humedad del suelo de tu planta esta muy alta`;
+                            } else {
+                                soilHumidityMessage.textContent = `La humedad del suelo de tu planta esta en un rango optimo`;
+                            }
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                    });
+            }
+            // Call fetchData every 15 seconds
+            setInterval(fetchData, 15000);
+        </script>
+
+    </body>
 </html>
